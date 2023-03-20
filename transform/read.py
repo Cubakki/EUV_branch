@@ -34,6 +34,7 @@ class structrue_reader:
         self.atom_num=int(self.line_list[0])
         self.atom_list=[];self.coordinate=[]
         for line in self.line_list[2:]:
+            line=line.strip()
             tup=line.split()
             self.atom_list.append(tup[0])
             self.coordinate.append(tuple([float(x) for x in tup[1:]]))
