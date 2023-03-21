@@ -226,11 +226,12 @@ class seperator:
                 if re.findall("[^0-9]+",associated_atom)[0] == ligand:
                     all_situation_list.append(self.cut(core_atom,associated_atom))
                     bond_cut_infor.append(self.cut_information_generator(core_atom,associated_atom))
-        i=0
+        flag=-1
         for i in range(0,len(all_situation_list)):
             #i+1作为situation_name，决定输出的核-配体对所在的文件夹名
+            flag=0
             self.situation_write(all_situation_list[i][0],all_situation_list[i][1],str(i+1),bond_cut_infor[i],poscar,lattice_vector,scale_vector)
-        if not i==0:
+        if not flag==-1:
             print("成功生成{}组core-ligand对于{}目录".format(i+1,self.out_path))
         else:
             print("{}中没有成键的core-ligand粒子对，其成键情况如下:{}".format(self.out_path.split("/")[-1],self.bond_dict))

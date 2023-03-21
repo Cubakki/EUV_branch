@@ -6,6 +6,8 @@ from seperator import seperator
 from PES_structure_gener import PES_sg
 from orca_utils.orca_writer import ORCA_INPUT
 
+import argparse
+
 '''
 此脚本将读取一(或一系列):
     1、核(core)的xyz文件
@@ -45,6 +47,19 @@ from orca_utils.orca_writer import ORCA_INPUT
     -...
 '''
 
+#输入参数设定
+parser=argparse.ArgumentParser()
+
+parser.add_argument("--S",default="./PAG")
+parser.add_argument("--I",default="./resources/PAG")
+parser.add_argument("--C1",default="N")
+parser.add_argument("--C2",default="O")
+
+args=parser.parse_args()
+#
+Seperator_output_mainpath = args.S
+Initial_structure_path = args.I
+
 keyline="!TPSS D4  DEF2-SVP SP\n"
 block=["% PAL NPROCS 32 END\n","%scf SmearTemp 5000 \nend"]
 pbs_script_name="orca_openmpi.pbs"
@@ -70,16 +85,19 @@ def PES_pbs_bash(target_dir,pbs_script_name):
 
 if __name__=="__main__":
     count=1
-    Seperator_output_mainpath = "./SnCHO_CLP"
+    Seperator_output_mainpath = Seperator_output_mainpath
+    Initial_structure_path = Initial_structure_path
     if not os.path.exists(Seperator_output_mainpath):
         os.mkdir(Seperator_output_mainpath)
-    for file in os.listdir("./resources/SnCHO_f_xyz"):
+    for file in os.listdir(Initial_structure_path):
         output_path = Seperator_output_mainpath + "/" + "{}".format(file.split(".")[0])
-        Seperator = seperator("./resources/SnCHO_f_xyz/" + file, output_path)
-        r = Seperator.run("Sn", "C")
+        Seperator = seperator(Initial_structure_path + "/" + file, output_path)
+        C1=args.C1
+        C2=args.C2
+        r = Seperator.run(C1, C2)
         if r == "No_core_ligand_pair_error":
             print("Trying to use O as the ligand...")
-            Seperator = seperator("./resources/SnCHO_f_xyz/" + file, output_path)
+            Seperator = seperator(Initial_structure_path + "/" +file, output_path)
             r = Seperator.run("Sn", "O")
             if r == "No_core_ligand_pair_error":
                 print("Failed to generate core_ligand_pair for {}.".format(file))
