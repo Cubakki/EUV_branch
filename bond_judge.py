@@ -1,4 +1,4 @@
-from load_data import SRD101,CSD_radius
+from load_bondlen_data import SRD101,CSD_radius
 
 class bond_judge():
     def __init__(self,mode):

@@ -160,7 +160,9 @@ class seperator:
         ligand_index=self.site_list.index(ligand)
         core_coor=self.molecule.sites[core_index].coords
         ligand_coor=self.molecule.sites[ligand_index].coords
-        text="{} {} {} {}\n{} {} {} {}\n".format(core,core_coor[0],core_coor[1],core_coor[2],ligand,ligand_coor[0],ligand_coor[1],ligand_coor[2])
+        text="{} {} {} {}\n" \
+             "{} {} {} {}\n" \
+             .format(core,core_coor[0],core_coor[1],core_coor[2],ligand,ligand_coor[0],ligand_coor[1],ligand_coor[2])
         return text
 
     def write(self,path,file):
@@ -224,6 +226,12 @@ class seperator:
                 if re.findall("[^0-9]+",associated_atom)[0] == ligand:
                     all_situation_list.append(self.cut(core_atom,associated_atom))
                     bond_cut_infor.append(self.cut_information_generator(core_atom,associated_atom))
+        i=0
         for i in range(0,len(all_situation_list)):
+            #i+1作为situation_name，决定输出的核-配体对所在的文件夹名
             self.situation_write(all_situation_list[i][0],all_situation_list[i][1],str(i+1),bond_cut_infor[i],poscar,lattice_vector,scale_vector)
-        print("成功生成{}组core-ligand对于{}目录".format(i+1,self.out_path))
+        if not i==0:
+            print("成功生成{}组core-ligand对于{}目录".format(i+1,self.out_path))
+        else:
+            print("{}中没有成键的core-ligand粒子对，其成键情况如下:{}".format(self.out_path.split("/")[-1],self.bond_dict))
+            return "No_core_ligand_pair_error"

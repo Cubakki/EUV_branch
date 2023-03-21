@@ -6,10 +6,10 @@ import time
 class control():
     input_file_dir : str
     work_dir = "./VASP_workdir"
-    potcar_path : str = "./resources/VASP_Utils/POTCAR"
-    incar_path : str  = "./resources/VASP_Utils/INCAR"
-    kpoint_path : str = "./resources/VASP_Utils/KPOINTS"
-    pbs_path : str    = "./resources/VASP_Utils/intel_vasp6.2_2017.pbs"
+    potcar_path : str = "../resources/VASP_Utils/POTCAR"
+    incar_path : str  = "../resources/VASP_Utils/INCAR"
+    kpoint_path : str = "../resources/VASP_Utils/KPOINTS"
+    pbs_path : str    = "../resources/VASP_Utils/intel_vasp6.2_2017.pbs"
     pbs_name : str    = "intel_vasp6.2_2017.pbs"
     name : str
 

@@ -3,7 +3,7 @@ from transform.read import structrue_reader
 from transform.poscar_writer import poscar_
 
 if __name__=="__main__":
-    read_path="./resources/加氢2"
+    read_path= "resources/SnCHO_f_xyz"
     files=os.listdir(read_path)
     for file in files:
         corrected_name=file.split("SnCHO")[0]

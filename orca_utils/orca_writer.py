@@ -43,7 +43,7 @@ class ORCA_INPUT:
             self.atom_list.append(tup[0])
             self.coordinate.append(tuple([float(x) for x in tup[1:]]))
         #spin是单、三重态判断，级简单的2S+1，假定α、β电子成对出现
-        if (self.atom_num%2)==1:
+        if (self.elenum%2)==1:
             self.spin=1
         else:
             self.spin=0
@@ -72,4 +72,4 @@ if __name__=="__main__":
     keyline="!TPSS D4  DEF2-SVP SP\n"
     block=["% PAL NPROCS 32 END\n","%scf SmearTemp 5000 \nend"]
     orca=ORCA_INPUT(keyline,"./ACDMSNSnCHO_alone.xyz",0,block)
-    orca.write("ABIFOJ.inp")
+    orca.write("input.inp")

@@ -3,7 +3,7 @@ from pymatgen.core import Molecule
 
 def bond_generate(molecule : Molecule,mode=2):
     '''
-
+    返回的bond_dict格式--{atom1:[[atomx,atomy,...],{atomx:distance1_x,atomy:distance1_y,...}],atom2...}
     :param molecule:
     :param mode: 1--经典键长,2--原子成键半径
     :return: bond_dict
