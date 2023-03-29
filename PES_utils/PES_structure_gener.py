@@ -32,7 +32,7 @@ class PES_sg():
         self.bond_vector=self.site2_coor-self.site1_coor
         self.bond_norm=self.bond_vector.dot(self.bond_vector)**0.5
 
-    def run(self,internal=0.1,num=50,first_name=""):
+    def run(self,internal=0.1,num=50,start=None,first_name=""):
         '''
         变化的键长中值将默认设定为原始键长，间隔与数目可以设定；最小从0.5埃开始输出结构
         :param internal: 间隔，单位为埃
@@ -42,9 +42,11 @@ class PES_sg():
         internal=float(internal)
         num=int(round(float(num),0))
         mid_point=round(self.bond_norm,1)
-        start=round(mid_point-round((num/2),0)*internal,1)
-        if start<0.5:
-            start=0.5
+        if start==None:
+            start=round(mid_point-round((num/2),0)*internal,1)
+        if start!=None:
+            if start<0.5:
+                start=0.5
         for i in range(0,num+1):
             actual_bl=start+i*internal
             #actual_bondlenth

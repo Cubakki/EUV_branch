@@ -1,12 +1,17 @@
 import os
 import shutil
-import time
 
-from seperator import seperator
-from PES_structure_gener import PES_sg
+from Seperator import seperator
+from PES_utils.PES_structure_gener import PES_sg
 from orca_utils.orca_writer import ORCA_INPUT
 
 import argparse
+
+'''
+*********************
+使用ORCA工作，计算势能面(变键长)
+*********************
+'''
 
 '''
 此脚本将读取一(或一系列):
@@ -22,7 +27,7 @@ import argparse
 -root
   -orca_utils
     =orca_writer.py
-    =orca_openmpi.pbs
+    =orca.pbs
   =PES_script.py
   -xxxxx_CLP
     -Molecule1
@@ -38,7 +43,7 @@ import argparse
           -orca_dir
             -0p1    #orca工作目录
               =input.inp
-              =orca_openmpi.pbs
+              =orca.pbs
               =...
             -0p2
             ...        
@@ -50,19 +55,20 @@ import argparse
 #输入参数设定
 parser=argparse.ArgumentParser()
 
-parser.add_argument("--S",default="./PAG")
-parser.add_argument("--I",default="./resources/PAG")
+parser.add_argument("--w",default="./PAG")
+parser.add_argument("--r",default="./resources/PAG")
 parser.add_argument("--C1",default="N")
 parser.add_argument("--C2",default="O")
+parser.add_argument("--h",default=False)
 
 args=parser.parse_args()
 #
-Seperator_output_mainpath = args.S
-Initial_structure_path = args.I
+Seperator_output_mainpath = args.w
+Initial_structure_path = args.r
 
 keyline="!TPSS D4  DEF2-SVP SP\n"
-block=["% PAL NPROCS 32 END\n","%scf SmearTemp 5000 \nend"]
-pbs_script_name="orca_openmpi.pbs"
+block=["% PAL NPROCS 2 END\n","%scf SmearTemp 5000 \nend"]
+pbs_script_name="orca.pbs"
 
 def PES_pbs_bash(target_dir,pbs_script_name):
     '''
@@ -84,6 +90,11 @@ def PES_pbs_bash(target_dir,pbs_script_name):
 
 
 if __name__=="__main__":
+    if args.h!=False:
+        print("--r Path contains structure files needed to be dealed with.\n"
+              "--w Path to write results.\n"
+              "--C1 ; --C2 core atom and ligand atom.eg:--C1 \"Sn\" --C2 \"C\"\n"
+              "--h help")
     count=1
     Seperator_output_mainpath = Seperator_output_mainpath
     Initial_structure_path = Initial_structure_path
@@ -134,7 +145,7 @@ if __name__=="__main__":
                 os.mkdir(sec_path)
                 orca = ORCA_INPUT(keyline, stfile_path, ele_num, block)
                 orca.write(sec_path+"/"+"input.inp")
-                shutil.copy("./orca_utils/orca_openmpi.pbs",sec_path)
+                shutil.copy("orca_utils/orca.pbs", sec_path)
                 bash_path=PES_pbs_bash(sec_path,pbs_script_name)
                 #os.system(f"bash {bash_path}")
                 count+=1

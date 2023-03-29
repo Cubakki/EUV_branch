@@ -2,7 +2,7 @@ import copy
 import re
 import os
 import os.path as path
-from bond_generate import bond_generate
+from bond_utils.bond_generate import bond_generate
 from pymatgen.core import Molecule
 
 

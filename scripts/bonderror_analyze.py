@@ -1,4 +1,5 @@
 import os
+import shutil
 
 
 def load_folderflist(folder):
@@ -53,17 +54,38 @@ class mol_loader():
             self.bondlevel_list[b-1].append(level)
 
     def show_bond_num(self):
+        ret=None
         for i in range(0,self.atom_num):
             #print("元素:{},键数:{}".format(self.atom_list[i],self.bond_num_list[i]))
             if self.atom_list[i]=="C":
                 if self.bond_num_list[i]>4:
                     print("在{}中，存在C连接了{}个键".format(self.name,self.bond_num_list[i]))
+                    ret=self.name
+        return ret
 
+
+def execlusive(pre,tic):
+    if not tic==None:
+        print(tic)
+        pre.append(tic)
+    return pre
 
 
 if __name__=="__main__":
-    file_list=load_folderflist("./SnCHO/mol_tem")
+    load_dir="../resources/old/SnCHO/mol_tem"
+    # shutil_dir="../resources/old/SnCHO_xyz"
+    # paste_dir="../resources/SnCHO_flitered"
+    # if not os.path.exists(paste_dir):
+    #     os.mkdir(paste_dir)
+    file_list=load_folderflist(load_dir)
+    # exec=[]
     for file in file_list:
         a=mol_loader()
-        a.read("./SnCHO/mol_tem/{}".format(file))
-        a.show_bond_num()
+        a.read("{}/{}".format(load_dir,file))
+        tic=a.show_bond_num()
+    #     exec=execlusive(exec,tic)
+    # print(exec)
+    #
+    # for file in file_list:
+    #     if not file.split("SnCHO")[0] in exec:
+    #         shutil.copy(shutil_dir+"/{}".format(file.replace("mol","xyz")),paste_dir+"/{}".format(file.split("SnCHO")[0]+".xyz"))

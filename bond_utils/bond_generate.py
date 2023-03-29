@@ -1,4 +1,5 @@
-from bond_judge import bond_judge
+import os.path
+from bond_utils.bond_judge import bond_judge
 from pymatgen.core import Molecule
 
 def bond_generate(molecule : Molecule,mode=2):

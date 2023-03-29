@@ -1,11 +1,12 @@
 import re
+import sys
 
 def SRD101():
     '''
     读取SRD101 database
     :return:a bond dict seems as {"H":{"H":"0.741","Li":"1.595",...},...}
     '''
-    file=open("./bond_data/Standard Reference Database 101.txt")
+    file=open("./bond_utils/Standard Reference Database 101.txt")
     lines=file.readlines()
     for line in lines:
         line.replace("\n","")
@@ -30,7 +31,7 @@ def CSD_radius():
     读取经典成键半径
     :return: like {"H":"0.31"，"He"....}
     '''
-    path="./bond_data/CSD_radius.txt"
+    path= "./bond_utils/CSD_radius.txt"
     element_radius_dict={}
     with open(path,"r") as f:
         chart=f.readlines()
