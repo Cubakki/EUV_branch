@@ -9,4 +9,4 @@ def calculate_electron_num(xyz_file_path):
 
 
 if __name__=="__main__":
-    calculate_electron_num("../Sn12/Sn12.xyz")
+    calculate_electron_num("../Sn12/Sn12MeSO3.xyz")

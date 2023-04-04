@@ -17,7 +17,7 @@ if __name__=="__main__":
                 for file in os.listdir(cal_dir_path):
                     if not "slurm" in file:
                         continue
-                    f=open(cal_dir_path+f"/{file}")
+                    f=open(cal_dir_path+f"/{file}","r")
                     lines=f.readlines()
                     f.close()
                     for li in lines:

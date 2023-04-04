@@ -84,6 +84,8 @@ class seperator:
         #以下拟可作为检验
         #core_molecule_list=self.DFS(fixed_neighbour_list,core_atom_index,[core_atom])
         core_molecule_list=list(set([x for x in range(0,len(self.site_list))])-set(ligand_molecule_list))
+        if core_molecule_list==[]:
+            raise ValueError
         return [core_molecule_list,ligand_molecule_list]
 
     def xyz_generator(self,x_molecule_list):

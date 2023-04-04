@@ -143,7 +143,7 @@ if __name__=="__main__":
                 sec_name=stfile.split("_")[2]
                 sec_path=orca_dir_path+"/"+sec_name.split(".")[0]
                 os.mkdir(sec_path)
-                orca = ORCA_INPUT(keyline, stfile_path, ele_num, block)
+                orca = ORCA_INPUT(keyline, stfile_path, ele_num,0, block)
                 orca.write(sec_path+"/"+"input.inp")
                 shutil.copy("orca_utils/orca.pbs", sec_path)
                 bash_path=PES_pbs_bash(sec_path,pbs_script_name)

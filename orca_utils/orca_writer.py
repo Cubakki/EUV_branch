@@ -12,10 +12,11 @@ ORCA的格式：
 
 class ORCA_INPUT:
 
-    def __init__(self,key_line : str,structure_file,electron_num = 0,block = None):
+    def __init__(self,key_line : str,structure_file,electron_num = 0,electron_state = 0,block = None):
         self.keyline=key_line
         self.strfile=structure_file
-        self.elenum=electron_num
+        self.elenum=int(electron_num)+int(electron_state)*-1
+        self.elest=int(electron_state)
         self.block=block
         self.coord_deal()
 
@@ -58,7 +59,7 @@ class ORCA_INPUT:
         if not self.block==None:
             for blo in self.block:
                 content=content+blo+"\n"
-        coor="* {} {} {}\n".format(self.type,0,self.spin)
+        coor="* {} {} {}\n".format(self.type,self.elest,self.spin)
         for line in self.xyz_lines:
             line=line.strip()
             coor=coor+line+"\n"
@@ -71,5 +72,5 @@ class ORCA_INPUT:
 if __name__=="__main__":
     keyline="!TPSS D4  DEF2-SVP SP\n"
     block=["% PAL NPROCS 32 END\n","%scf SmearTemp 5000 \nend"]
-    orca=ORCA_INPUT(keyline,"",0,block)
+    orca=ORCA_INPUT(keyline,"",0,0,block)
     orca.write("input.inp")
