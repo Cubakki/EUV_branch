@@ -107,7 +107,7 @@ if __name__=="__main__":
                 for paths in [[core_file_path,core_opt_path],[ligand_file_path,ligand_opt_path]]:
                     orca=ORCA_INPUT(keyline1,paths[0],ele_num_list[1],block1)
                     orca.write(paths[1]+"/input.inp")
-                    shutil.copy("orca_utils/orca.pbs", paths[1])
+                    shutil.copy("../orca_utils/orca.pbs", paths[1])
                     bash_path = PES_pbs_bash(paths[1], pbs_script_name)
                     #os.system(f"bash {bash_path}")
                     count += 1
