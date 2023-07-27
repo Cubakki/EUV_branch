@@ -1,15 +1,14 @@
 #Utils
-from pymatgen.core import Molecule
 from periodic_table.periodic_table import Periodic_table
 from transform.read import structrue_reader
 
-_periodic_table=Periodic_table
+_periodic_table=Periodic_table()
 
 def calculate_electron_num(xyz_file_path):
-    structure = structrue_reader(xyz_file_path)
+    structure = structrue_reader(xyz_file_path).read()
     ele_num=0
     for index in range(0,structure.atom_num):
-        ele_num+=_periodic_table.get_z(structure.atom_list[i])
+        ele_num+=_periodic_table.get_z(structure.atom_list[index])
     #print("此结构的电子数:\n{}".format(ele_num))
     return ele_num
 

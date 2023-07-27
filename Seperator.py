@@ -221,7 +221,7 @@ class seperator:
         '''
         all_situation_list=[];bond_cut_infor=[]
         if not (core in self.molecule.symbol_set) and (ligand in self.molecule.symbol_set):
-            raise ValueError("指定的core或配体不存在于化合物中")
+            raise NotImplementedError("指定的core或配体不存在于化合物中")
         #主循环，遍历core元素的原子的成键情况，分离配体；切断core-ligand键后，以ligand原子为起点做graph的遍历，分离出core和ligand两组粒子位置
         for core_atom in self.element_atom_dict[core]:
             for associated_atom in self.bond_dict[core_atom][0]:
