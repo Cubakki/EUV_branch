@@ -30,7 +30,7 @@ class structrue_reader:
 
 
     def xyz_reader(self):
-        self.name=self.line_list[1]
+        self.name=self.line_list[1].strip()
         self.atom_num=int(self.line_list[0])
         self.atom_list=[];self.coordinate=[]
         for line in self.line_list[2:]:
