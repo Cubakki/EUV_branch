@@ -4,7 +4,7 @@ class xyz_:
     def __init__(self,structure : structure,name = None):
         self.structure=structure
         if name==None:
-            name=self.structure.name
+            self.name=self.structure.name
 
     def pre_cal(self):
         self.atom_dict={}
