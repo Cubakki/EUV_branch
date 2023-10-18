@@ -40,6 +40,7 @@ if __name__ == "__main__":
     with open("./worked.log", "r") as f:
         worked_list = f.readlines()
         f.close()
+        worked_list = [x.strip() for x in worked_list]
 
     i=0
     # Load structures
