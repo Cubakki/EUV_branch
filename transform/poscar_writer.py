@@ -1,11 +1,11 @@
-from transform.structure import structure
+from transform.structure import Structure
 
 
 '''
 由于VASP需要固定的元素顺序（方便POTCAR赝势的统一），目前支持的是Sn、O、C、H的排列
 '''
 class poscar_:
-    def __init__(self,structure : structure,name=None):
+    def __init__(self, structure : Structure, name=None):
         self.structure=structure
         if not name==None:
             self.structure.name=name

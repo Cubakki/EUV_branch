@@ -131,6 +131,9 @@ class Periodic_table:
     def __zt__(self):
         self._zt={x:self.source_table[x]["Atomic no"] for x in self.source_table.keys()}
 
+    def get_element_inf(self,ele):
+        return self.source_table[ele]
+
     @property
     def z_table(self):
         #atomic number table for private wrap
@@ -142,7 +145,8 @@ class Periodic_table:
         except:
             raise TypeError("Illegel element name:{}".format(element_name))
 
+
+Pt=Periodic_table()
 if __name__=="__main__":
     pt=Periodic_table()
-    print(pt.z_table)
 

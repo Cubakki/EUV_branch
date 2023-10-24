@@ -3,7 +3,8 @@ import re
 import os
 import os.path as path
 from bond_utils.bond_generate import bond_generate
-from pymatgen.core import Molecule
+from transform.structure import Molecule
+from transform.read import Structrue_reader
 
 
 class seperator:
@@ -24,7 +25,7 @@ class seperator:
         读取xyz文件转换为pymatgen的Molecule类实例
         :return: True
         '''
-        molecule = Molecule.from_file(self.load_path)
+        molecule = Molecule.from_structure(Structrue_reader(self.load_path).read())
         self.molecule=molecule
         return True
 
