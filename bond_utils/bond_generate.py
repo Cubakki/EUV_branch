@@ -1,6 +1,6 @@
 import os.path
 from bond_utils.bond_judge import bond_judge
-from pymatgen.core import Molecule
+from transform.structure import Molecule
 
 def bond_generate(molecule : Molecule,mode=2):
     '''
@@ -17,10 +17,10 @@ def bond_generate(molecule : Molecule,mode=2):
         bond_dict[site.specie.name+str(used_ele[site.specie.name])]=[[],{}]
         used_ele[site.specie.name]+=1
     judger=bond_judge(2)
-    shape=distance_matrix.shape
+    shape=len(distance_matrix)
     elements=list(bond_dict.keys())
-    for m in range(0,shape[0]):
-        for n in range(m,shape[0]):
+    for m in range(0,shape):
+        for n in range(m,shape):
             site1_element=sites[m].specie.name;site1=elements[m]
             site2_element=sites[n].specie.name;site2=elements[n]
             distance=distance_matrix[(m,n)]

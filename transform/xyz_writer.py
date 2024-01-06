@@ -1,7 +1,7 @@
-from transform.structure import structure
+from transform.structure import Structure
 
 class xyz_:
-    def __init__(self,structure : structure,name = None):
+    def __init__(self, structure : Structure, name = None):
         self.structure=structure
         if name==None:
             self.name=self.structure.name

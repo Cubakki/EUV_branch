@@ -1,7 +1,7 @@
 import transform.structure as st
 
 
-class structrue_reader:
+class Structrue_reader:
     def __init__(self,path,type=None):
         self.type=type
         if self.type==None:
@@ -38,4 +38,4 @@ class structrue_reader:
             tup=line.split()
             self.atom_list.append(tup[0])
             self.coordinate.append(tuple([float(x) for x in tup[1:]]))
-        return st.structure(self.name,self.atom_num,self.atom_list,self.coordinate)
+        return st.Structure(self.name, self.atom_num, self.atom_list, self.coordinate)

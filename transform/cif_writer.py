@@ -1,10 +1,10 @@
 #  structure -->　cif file   !!!! 仅做简单格式适配，保证格矢大于格点体积，cell angle都为90°，a/b/c lenth取在此方向最远投影点间距离的两倍
 import copy
 
-from transform.structure import structure
+from transform.structure import Structure
 
 class cif_():
-    def __init__(self, structure: structure, name=None):
+    def __init__(self, structure: Structure, name=None):
         self.structure = structure
         if name == None:
             self.name = self.structure.name

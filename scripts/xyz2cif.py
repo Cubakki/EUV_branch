@@ -1,7 +1,7 @@
 import os.path
 
-from transform.structure import structure
-from transform.read import structrue_reader
+from transform.structure import Structure
+from transform.read import Structrue_reader
 from transform.cif_writer import cif_
 
 
@@ -23,7 +23,7 @@ if __name__=="__main__":
     recursion_dir(root);i=0
     for p in RPath:
         np="."+p.split(".")[1]+".cif"
-        sr=structrue_reader(p)
+        sr=Structrue_reader(p)
         st=sr.read()
         cr=cif_(st)
         cr.write(np)
