@@ -17,15 +17,20 @@ import sys
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-f", default="./resources/SnCHO_flitered")
+parser.add_argument("-f", default="./structures")
 parser.add_argument("-p", default="PBS")
 parser.add_argument("-n", default=20)
 
 args = parser.parse_args()
 ################################
 
+
+################################ check if there is a work log
+if not os.path.exists("./worked.log"):
+    with open("./worked.log",'w') as f:
+        f.close()
 ################################ load worked structure
-with open("../worked.log", "r", encoding="utf-8") as fr:
+with open("./worked.log", "r", encoding="utf-8") as fr:
     worked = fr.readlines()
     fr.close()
     worked = [x.strip() for x in worked]
@@ -86,7 +91,7 @@ if __name__ == "__main__":
                 worked.pop()
                 submited -= 1
             print("Error with submitting {}".format(stru_f))
-    with open("../worked.log", "w", encoding="utf-8") as fw:
+    with open("./worked.log", "w", encoding="utf-8") as fw:
         fw.write("\n".join(worked))
         fw.close()
     print("Program Exit.")
