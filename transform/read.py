@@ -4,6 +4,7 @@ import transform.structure as st
 class Structrue_reader:
     def __init__(self,path,type=None):
         self.type=type
+        self.path=path     #used for locating error
         if self.type==None:
             self.type=self.type_judge(path)
         f=open(path,"r")
