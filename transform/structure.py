@@ -23,7 +23,8 @@ class Molecule(Structure):
         try:
             super().__init__(args[0],args[1],args[2],args[3])
         except:
-            raise('Molecule Object Initial Error')
+            super().__init__('empty', 0, [], [])
+            raise('Molecule Object Initial Error, an empty molecule will be initialized.')
         finally:
             self.__sites__()
             self.__symbol_set__()

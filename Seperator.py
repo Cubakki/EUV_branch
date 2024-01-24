@@ -25,7 +25,7 @@ class seperator:
         读取xyz文件转换为pymatgen的Molecule类实例
         :return: True
         '''
-        molecule = Molecule.from_structure(Structrue_reader(self.load_path).read())
+        molecule = Molecule().from_structure(Structrue_reader(self.load_path).read())
         self.molecule=molecule
         return True
 
