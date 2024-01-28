@@ -1,0 +1,32 @@
+#PBS -N slurm-
+##PBS -o jz/my.out
+#PBS -e err.out
+#PBS -q sbp_pub  # or spst_pub
+#PBS  -l nodes=1:ppn=16
+#PBS -l walltime=48:0:0
+#
+#
+#
+module load  mpi/openmpi/4.1.1
+#
+export FI_PROVIDER=tcp
+
+
+cd "$PBS_O_WORKDIR" 
+
+
+cp $PBS_NODEFILE node
+NCORE=`cat node | wc -l`
+
+
+#mpirun -machinefile node -np $NCORE  hostname
+
+export PATH=/public/home/wanghan3/src/ORCA/orca_5_0_3_linux_x86-64_openmpi411:$PATH
+export LD_LIBRARY_PATH=/public/home/wanghan3/src/ORCA/orca_5_0_3_linux_x86-64_openmpi411:$LD_LIBRARY_PATH
+
+
+
+#mpirun -machinefile node -np $NCORE  /public/home/wanghan3/src/ORCA/orca_5_0_3_linux_x86-64_openmpi411/orca input.inp
+  /public/home/wanghan3/src/ORCA/orca_5_0_3_linux_x86-64_openmpi411/orca input.inp
+
+

@@ -24,7 +24,7 @@ class Molecule(Structure):
             super().__init__(args[0],args[1],args[2],args[3])
         except:
             super().__init__('empty', 0, [], [])
-            raise('Molecule Object Initial Error, an empty molecule will be initialized.')
+            #print('Molecule Object Initial Error, an empty molecule will be initialized.')
         finally:
             self.__sites__()
             self.__symbol_set__()
@@ -98,6 +98,7 @@ class Site():
     def __init__(self,specie,coordinate,id=None):
         self.specie=Specie(specie)
         self.coordinate=coordinate
+        self.coords=coordinate #To remain the same as pymatgen
         self.bonded_site=[]    #在molecule中与之成键的site_id
         self.site_id=id     #在molecule中生成sites时初始化
         self.site_name=None    #在molecule中生成site_name_list时初始化
@@ -112,3 +113,4 @@ class Specie():
     def __init__(self,element):
         self.source_data=Pt.get_element_inf(element)
         self.name=element
+        self.number=Pt.get_z(self.name)

@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH -t 48:0:0
+#SBATCH -n 16
+##SBATCH --cpus-per-task=1
+#SBATCH --partition=dm_pub_cpu
+
+# load the environment
+module purge
+module load mpi/openmpi/4.1.1
+
+/public/home/wanghan3/src/ORCA/orca_5_0_3_linux_x86-64_openmpi411/orca input.inp "--report-bindings --bind-to core --bycore"

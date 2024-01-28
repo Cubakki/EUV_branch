@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from Seperator import seperator
+from Seperator import Seperator
 from PES_utils.PES_structure_gener import PES_sg
 from orca_utils.orca_writer import ORCA_INPUT
 from orca_utils.utils import electron_num_reader,PES_pbs_bash
@@ -74,13 +74,13 @@ if __name__=="__main__":
             #specify output_path
             output_path = Seperator_output_mainpath + "/" + "{}".format(file.split(".")[0])
             #register Seperator
-            Seperator = seperator(Initial_structure_path + "/" + file, output_path)
+            Seperator = Seperator(Initial_structure_path + "/" + file, output_path)
             #Seperating
             r = Seperator.run(C1, C2)
             #Deal with the situation the desired bond is not existing.This part can be modified or delected.
             if r == "No_core_ligand_pair_error":
                 print("Trying to use O as the ligand...")
-                Seperator = seperator(Initial_structure_path + "/" + file, output_path)
+                Seperator = Seperator(Initial_structure_path + "/" + file, output_path)
                 r = Seperator.run(C1, "O")
                 if r == "No_core_ligand_pair_error":
                     print("Failed to generate core_ligand_pair for {}.".format(file))

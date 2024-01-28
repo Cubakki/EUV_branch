@@ -2,7 +2,7 @@ import os
 import shutil
 import argparse
 import sys
-from Seperator import Seperator
+from Seperator import seperator
 from orca_utils.orca_writer import ORCA_INPUT
 from orca_utils.bash_generator import bash_g
 from orca_utils.utils import calculate_electron_num
@@ -13,10 +13,10 @@ from orca_utils.utils import calculate_electron_num
 File Structure
 |-Dissociation.py
  |--optimized_structures
- |--(Structure_name)
-  |--nu.xyz
-  |--ng.xyz
-  |--ps.xyz
+  |--(Structure_name)
+   |--nu.xyz
+   |--ng.xyz
+   |--ps.xyz
 |--workdir
  |--(Structure_name)
   |--ng
@@ -99,7 +99,7 @@ if __name__=="__main__":
     sub_num=0
     for str_dir in os.listdir(opts_path):
         if not sub_num<opt_num:
-            print(f"Succeeded to submit {sub_num} structures' series tasks.Program exit.")
+            print(f"Succeeded to submit {sub_num+1} structures' series tasks.Program exit.")
             break
         if str_dir in submitted:
            continue
@@ -146,10 +146,16 @@ if __name__=="__main__":
                 if not os.path.exists(state_path):
                     os.mkdir(state_path)
                 try:
-                    sepe=Seperator(whole_str_path, state_path)
-                    sepe.run(core,ligand)
+                    sepe=seperator(whole_str_path,state_path)
+                    c=sepe.run(core,ligand)
+                    if c=="No_core_ligand_pair_error":
+                        print("Specified core-ligand bond does not exists in {}.".format(str_dir))
+                        raise NotImplementedError
                 except ValueError:
+                    print("出现切断键后依然联通的结构")
                     continue
+                except:
+                    raise NotImplementedError
                 #Seperate Complete
                 for situation in os.listdir(state_path):
                     sit_path=state_path+f"/{situation}"

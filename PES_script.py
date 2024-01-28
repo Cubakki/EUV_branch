@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from Seperator import seperator
+from Seperator import Seperator
 from PES_utils.PES_structure_gener import PES_sg
 from orca_utils.orca_writer import ORCA_INPUT
 
@@ -102,13 +102,13 @@ if __name__=="__main__":
         os.mkdir(Seperator_output_mainpath)
     for file in os.listdir(Initial_structure_path):
         output_path = Seperator_output_mainpath + "/" + "{}".format(file.split(".")[0])
-        Seperator = seperator(Initial_structure_path + "/" + file, output_path)
+        Seperator = Seperator(Initial_structure_path + "/" + file, output_path)
         C1=args.C1
         C2=args.C2
         r = Seperator.run(C1, C2)
         if r == "No_core_ligand_pair_error":
             print("Trying to use O as the ligand...")
-            Seperator = seperator(Initial_structure_path + "/" +file, output_path)
+            Seperator = Seperator(Initial_structure_path + "/" + file, output_path)
             r = Seperator.run("Sn", "O")
             if r == "No_core_ligand_pair_error":
                 print("Failed to generate core_ligand_pair for {}.".format(file))

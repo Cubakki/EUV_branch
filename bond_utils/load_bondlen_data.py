@@ -38,7 +38,15 @@ def CSD_radius():
         f.close()
     for i in chart[1:]:
         block=i.split(" ")
-        element_radius_dict[block[1]]=block[2]
+        try:
+            int(block[0])
+            try:
+                float(block[2])
+                element_radius_dict[block[1]] = float(block[2])
+            except:
+                element_radius_dict[block[1]]=float(block[3])
+        except:
+            continue
     element_radius_dict["C"]="0.73"
     return element_radius_dict
 

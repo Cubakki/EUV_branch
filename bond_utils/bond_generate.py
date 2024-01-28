@@ -19,22 +19,22 @@ def bond_generate(molecule : Molecule):
 
     3、重复2中步骤直到整个体系连通   
     '''
-    bond_dict = {}
     distance_matrix = molecule.distance_matrix
     sites = molecule.sites
     site_name_list=molecule.sites_name_list
+    bond_dict = {x:[[],{}] for x in site_name_list}
     judger=bond_judge(2)
     shape=len(distance_matrix)
     bias=0.1
     #初次成键
     while True:
-        for site1 in sites:
-            site1_id=site1.site_id
+        for site1_id in range(0,len(sites)):
+            site1=sites[site1_id]
             if len(site1.bonded_site)==0:
-                for site2_id in range(0,molecule.atom_num):
+                for site2_id in range(site1_id,molecule.atom_num):
                     if not site2_id==site1_id:
                         site2=sites[site2_id]
-                        distance=distance_matrix[site1_id,site2_id]
+                        distance=distance_matrix[site1_id][site2_id]
                         judge_result=judger.judge(site1.specie.name,site2.specie.name,distance,allowed_bias=bias)
                         if judge_result:
                             site1.add_bond(site2_id)
@@ -50,12 +50,12 @@ def bond_generate(molecule : Molecule):
         linked_group=Bond_DFS(0,[],molecule)  #这里的linked_group是一个塞满了site_id的列表，因此判断是否全连通可以直接判断列表长度
         if not len(linked_group)==molecule.site_num:
             bias+=0.1
-            isolated_group=list(tuple([i for i in range(0,molecule.site_num)]))
+            isolated_group=list(set([i for i in range(0,molecule.site_num)])-set(linked_group))
             for site1_id in linked_group:
                 site1 = molecule.get_site(site1_id)
                 for site2_id in isolated_group:
                     site2=molecule.get_site(site2_id)
-                    distance=distance_matrix[site1_id,site2_id]
+                    distance=distance_matrix[site1_id][site2_id]
                     judge_result = judger.judge(site1.specie.name, site2.specie.name, distance, allowed_bias=bias)
                     if judge_result:
                         site1.add_bond(site2_id)

@@ -3,11 +3,10 @@ import re
 import os
 import os.path as path
 from bond_utils.bond_generate import bond_generate
-from transform.structure import Molecule
-from transform.read import Structrue_reader
+from pymatgen.core import Molecule
 
 
-class Seperator:
+class seperator:
     def __init__(self,file_path,output_path="default"):
         '''
         :param file_path: xyz文件路径
@@ -25,7 +24,7 @@ class Seperator:
         读取xyz文件转换为pymatgen的Molecule类实例
         :return: True
         '''
-        molecule = Molecule().from_structure(Structrue_reader(self.load_path).read())
+        molecule = Molecule.from_file(self.load_path)
         self.molecule=molecule
         return True
 
@@ -83,16 +82,11 @@ class Seperator:
         fixed_neighbour_list[ligand_atom_index].remove(core_atom_index)
         ligand_molecule_list=self.DFS(fixed_neighbour_list,ligand_atom_index,[ligand_atom_index])
         #以下拟可作为检验
-        core_molecule_list=self.DFS(fixed_neighbour_list,core_atom_index,[core_atom_index])
-        if set(ligand_molecule_list)-set(core_molecule_list)==set(ligand_molecule_list):
-            if len(ligand_molecule_list)+len(core_molecule_list)==self.molecule.atom_num:
-        #core_molecule_list=list(set([x for x in range(0,len(self.site_list))])-set(ligand_molecule_list))
-        # if core_molecule_list==[]:
-        #     raise ValueError
-                return [core_molecule_list,ligand_molecule_list]
-        else:
-            print('正处理的结构{}不能在{},{}处正确切割'.format(self.molecule.name,core_atom,ligand_atom))
+        #core_molecule_list=self.DFS(fixed_neighbour_list,core_atom_index,[core_atom])
+        core_molecule_list=list(set([x for x in range(0,len(self.site_list))])-set(ligand_molecule_list))
+        if core_molecule_list==[]:
             raise ValueError
+        return [core_molecule_list,ligand_molecule_list]
 
     def xyz_generator(self,x_molecule_list):
         """
@@ -244,8 +238,3 @@ class Seperator:
         else:
             print("{}中没有成键的core-ligand粒子对，其成键情况如下:{}".format(self.out_path.split("/")[-1],self.bond_dict))
             return "No_core_ligand_pair_error"
-
-if __name__=='__main__':
-    sep=Seperator('./test/input/nu.xyz','./test/output/')
-    sep.run('Sn','C')
-    print(1)
