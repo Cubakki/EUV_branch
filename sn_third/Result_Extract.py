@@ -10,6 +10,16 @@ import json
 PATH= "./workdir"
 OUTPUT_PATH="./excel_data"
 
+def formula(ele):
+    'from atom ele generate formula'
+    fd={'Sn':0,"C":0,"H":0,"O":0}
+    for x in ele:
+        if not x in fd.keys():
+            fd[x]=0
+        fd[x]+=1
+    formula_="Sn{}C{}H{}O{}".format(fd['Sn'],fd['C'],fd['H'],fd['O'])
+    return formula_
+
 if __name__=="__main__":
     whole_dict={}
     Less_than_zero={}
@@ -24,6 +34,7 @@ if __name__=="__main__":
             atom_ele=[x.strip().split(" ")[0].strip() for x in fc[2:]]
             r_dict["atom_num"]=atom_num
             r_dict["atom_ele"]=atom_ele
+            r_dict["formula"] = formula(atom_ele)
             #initial structure
             ini_path=stru_path+"/initial"
             for state in ["nu", "ng", "ps"]:
