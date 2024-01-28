@@ -25,6 +25,7 @@ if __name__=="__main__":
     Less_than_zero={}
     for stru in os.listdir(SEC_PATH):
         try:
+            print(f"Now deal with structure:{stru}")
             stru_path=SEC_PATH+f"/{stru}"
             r_dict={}
             #read scope
@@ -53,7 +54,7 @@ if __name__=="__main__":
                     f.close()
                     for li in lines:
                         if "FINAL SINGLE POINT ENERGY" in li:
-                            print(lines.index(li))
+                            print("Find single point energy in line :-"+lines.index(li))
                             try:
                                 Energy = float(li.split()[4])*27.2113863
                             except:
