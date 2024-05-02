@@ -2,7 +2,7 @@ import os
 import shutil
 
 from Seperator import Seperator
-from PES_utils.PES_structure_gener import PES_sg
+from side_tools.PES_utils.PES_structure_gener import PES_sg
 from orca_utils.orca_writer import ORCA_INPUT
 
 import argparse

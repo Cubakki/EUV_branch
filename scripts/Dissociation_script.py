@@ -2,12 +2,11 @@ import os
 import shutil
 
 from Seperator import Seperator
-from PES_utils.PES_structure_gener import PES_sg
 from orca_utils.orca_writer import ORCA_INPUT
 from orca_utils.utils import electron_num_reader,PES_pbs_bash
 
 import argparse
-import json
+
 '''
 *********************
 使用ORCA工作，计算解离能
