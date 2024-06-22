@@ -1,11 +1,11 @@
 #Utils
 from periodic_table.periodic_table import Periodic_table
-from transform.read import Structrue_reader
+from transform.read import structure_reader
 
 _periodic_table=Periodic_table()
 
 def calculate_electron_num(xyz_file_path):
-    structure = Structrue_reader(xyz_file_path).read()
+    structure = structure_reader.read(xyz_file_path)
     ele_num=0
     for index in range(0,structure.atom_num):
         ele_num+=_periodic_table.get_z(structure.atom_list[index])

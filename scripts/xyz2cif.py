@@ -23,8 +23,8 @@ if __name__=="__main__":
     recursion_dir(root);i=0
     for p in RPath:
         np="."+p.split(".")[1]+".cif"
-        sr=Structrue_reader(p)
-        st=sr.read()
+        sr=Structrue_reader()
+        st=sr.read(p)
         cr=cif_(st)
         cr.write(np)
         i+=1

@@ -9,6 +9,6 @@ if __name__=="__main__":
         corrected_name=file.split("SnCHO")[0]
         aimed_path="./resources/POSCAR_SnCHO_First/"+corrected_name
         file_path=read_path+"/"+file
-        reader=Structrue_reader(file_path)
-        writer=poscar_(reader.read(),corrected_name)
+        reader=Structrue_reader()
+        writer=poscar_(reader.read(file_path),corrected_name)
         writer.write(aimed_path)
