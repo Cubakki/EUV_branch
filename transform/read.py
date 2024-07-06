@@ -11,7 +11,7 @@ class Structrue_reader:
         if self.type == None:
             self.type = self.type_judge(path)
         f = open(path, "r")
-        self.line_list = f.readlines()
+        self.line_list = [x.strip() for x in f.readlines()]
         f.close()
         return self.type_assign()
 
