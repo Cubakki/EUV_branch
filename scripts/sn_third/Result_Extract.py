@@ -35,6 +35,7 @@ if __name__=="__main__":
             r_dict["atom_num"]=atom_num
             r_dict["atom_ele"]=atom_ele
             r_dict["formula"] = formula(atom_ele)
+            r_dict["splits"] = []
             #initial structure
             ini_path=stru_path+"/initial"
             for state in ["nu", "ng", "ps"]:
@@ -75,11 +76,13 @@ if __name__=="__main__":
                                     for li in lines:
                                         if "FINAL SINGLE POINT ENERGY" in li:
                                             Energy_cl.append((float(li.split()[-1])*27.2113863))
-                            r_dict[f"{state}_{pattern}_{sit}_energy"]=sum(Energy_cl)
-                            r_dict[f"{state}_{pattern}_{sit}_split"]=r_dict[f"{state}_{pattern}_{sit}_energy"]-r_dict[f"initial_{state}_energy"]
-                            if r_dict[f"{state}_{pattern}_{sit}_split"]<0:
+                            single_split_dict = {}
+                            single_split_dict[f"{state}_{pattern}_{sit}_energy"] = sum(Energy_cl)
+                            single_split_dict[f"{state}_{pattern}_{sit}_split"] = r_dict[f"{state}_{pattern}_{sit}_energy"]-r_dict[f"initial_{state}_energy"]
+                            r_dict["splits"].append(copy.deepcopy(single_split_dict))
+                            if single_split_dict[f"{state}_{pattern}_{sit}_split"]<0:
                                 print(f"Find dissociation energy < 0:{stru}_{state}_{pattern}_{sit}_split"+"="+str(r_dict[f"{state}_{pattern}_{sit}_split"]))
-                                Less_than_zero[f"{stru}_{state}_{pattern}_{sit}_split"]=r_dict[f"{state}_{pattern}_{sit}_split"]
+                                Less_than_zero[f"{stru}_{state}_{pattern}_{sit}_split"]=copy.deepcopy(single_split_dict[f"{state}_{pattern}_{sit}_split"])
                 with open("../Energy_Result.txt", "w", encoding="utf-8") as f:
                     f.write("\n".join([str(x+" "+str(y))for x,y in r_dict.items()]))
             ##############excel operation

@@ -2,8 +2,13 @@ from pathlib import Path
 import json
 
 # Loads element data from json file
-with open(str(Path(__file__).absolute().parent / "periodic_table.json")) as f:
+with open(str(Path(__file__).absolute().parent / "periodic_table.json"),encoding="utf-8") as f:
     _pt_data = json.load(f)
+    f.close()
+
+with open(str(Path(__file__).absolute().parent / "periodic_table_extend1.json"),encoding="utf-8") as f:
+    _pt_extend1_data = json.load(f)
+    f.close()
 
 class Periodic_table:
     H = "H"
@@ -126,6 +131,7 @@ class Periodic_table:
     Og = "Og"
     def __init__(self):
         self.source_table=_pt_data
+        self.extend1_table = _pt_extend1_data
         self.__zt__()
 
     def __zt__(self):
@@ -136,7 +142,7 @@ class Periodic_table:
 
     @property
     def z_table(self):
-        #atomic number table for private wrap
+        #atomic number table for private wrap example: {"H":1}
         return self._zt
 
     def get_z(self,element_name):
@@ -144,6 +150,14 @@ class Periodic_table:
             return self._zt[element_name]
         except:
             raise TypeError("Illegel element name:{}".format(element_name))
+
+    def get_valence_electron_num(self,element_name):
+        try:
+            return self.extend1_table["elements"][self._zt[element_name]]["shells"][-1]
+        except:
+            raise TypeError("Illegel element name:{}".format(element_name))
+
+
 
 
 Pt=Periodic_table()
