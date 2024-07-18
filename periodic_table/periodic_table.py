@@ -153,7 +153,7 @@ class Periodic_table:
 
     def get_valence_electron_num(self,element_name):
         try:
-            return self.extend1_table["elements"][self._zt[element_name]]["shells"][-1]
+            return self.extend1_table["elements"][self._zt[element_name]-1]["shells"][-1]
         except:
             raise TypeError("Illegel element name:{}".format(element_name))
 

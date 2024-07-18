@@ -35,10 +35,11 @@ if __name__ == '__main__':
             f.close()
 
         print("now rank {} start work with {}".format(rank,work))
-        struct_work_path = work_path + "/" + work + "/" + "openmx_in.dat"
-        os.chdir(structure_path)
-        os.system("mpirun -np 16 {} openmx_in.dat > openmx.std".format(openmx_path))
+        struct_work_path = work_path + "/" + work + "/"
+        os.chdir(struct_work_path)
+        os.system("mpirun -np 8 {} openmx_in.dat > openmx.std".format(openmx_path))
         os.system("cat openmx.out >> openmx.scfout")
+        os.chdir("../../")
         with open("./done.log","a") as f:
             f.write(work+"\n")
             f.close()

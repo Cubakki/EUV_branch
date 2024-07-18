@@ -25,8 +25,9 @@ if __name__ == '__main__':
             struct = struct_file.split(".")[0]
             stuct_file_path = structure_path + "/" + struct_file
             struct_work_path = work_path + "/" + struct  +"/"
-            os.mkdir(work_path + "/" + struct)
-            structure = structure_reader(stuct_file_path)
+            if not os.path.exists(struct_work_path):
+                os.makedirs(work_path + "/" + struct)
+            structure = structure_reader.read(stuct_file_path)
             ome = OpenMXInputWriter(structure)
             ome.data_path(DFT_DATA_PATH)
             ome.write_openmx_input_file(struct_work_path)

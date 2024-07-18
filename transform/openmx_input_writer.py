@@ -72,6 +72,8 @@ class OpenMXInputWriter(object):
         self._Definition_of_Atomic_Species = ""
         self._Atoms_Number = 0
         self._Atoms_SpeciesAndCoordinates = ""
+        self._Atoms_UnitVectors_Unit = "Ang"
+        self._Atoms_UnitVectors = ""
         self._scf_XcType = "GGA-PBE"
         self._scf_ElectronicTemperature = 300.0
         self._scf_energycutoff = 300
@@ -115,13 +117,18 @@ class OpenMXInputWriter(object):
         self._openmx_in_text += self._Atoms_SpeciesAndCoordinates
         self._openmx_in_text += "Atoms.SpeciesAndCoordinates>\n"
         self._openmx_in_text += "\n"
+        self._openmx_in_text += "Atoms.UnitVectors.Unit                {}\n".format(self._Atoms_UnitVectors_Unit)
+        self._openmx_in_text += "<Atoms.UnitVectors\n"
+        self._openmx_in_text += self._Atoms_UnitVectors
+        self._openmx_in_text += "Atoms.UnitVectors>\n"
+        self._openmx_in_text += "\n"
         self._openmx_in_text += "scf.XcType                            {}\n".format(self._scf_XcType)
         self._openmx_in_text += "scf.ElectronicTemperature             {}\n".format(self._scf_ElectronicTemperature)
         self._openmx_in_text += "scf.energycutoff                      {}\n".format(self._scf_energycutoff)
         self._openmx_in_text += "scf.maxIter                           {}\n".format(self._scf_maxIter)
         self._openmx_in_text += "scf.EigenvalueSolver                  {}\n".format(self._scf_EigenvalueSolver)
         self._openmx_in_text += "scf.Kgrid                             {} {} {}\n".format(self._scf_Kgrid[0], self._scf_Kgrid[1], self._scf_Kgrid[2])
-        self._openmx_in_text += "scf.criterion                         {}\n".format(self.scf_criterion)
+        self._openmx_in_text += "scf.criterion                         {}\n".format(self._scf_Criterion)
         self._openmx_in_text += "scf.partialCoreCorrection             {}\n".format(self._scf_partialCoreCorrection)
         self._openmx_in_text += "\n"
         self._openmx_in_text += "scf.SpinPolarization                  {}\n".format(self._scf_SpinPolarization)
@@ -149,6 +156,7 @@ class OpenMXInputWriter(object):
             if not atom in species:
                 species.append(atom)
         self._Species_Number = len(species)
+
         for specie in species:
             if specie in basis_configuration_dict.keys():
                 self._Definition_of_Atomic_Species +=  (
@@ -159,13 +167,27 @@ class OpenMXInputWriter(object):
                 print("Specie '" + specie + "' not defined.")
                 return False
         self._Atoms_Number = self._structure.atom_num
+
         for position,coordinate in enumerate(self._structure.coordinate):
             element = self._structure.atom_list[position]
             valence_electron_num = Pt.get_valence_electron_num(element)
             spin = float(valence_electron_num/2)
             self._Atoms_SpeciesAndCoordinates \
                 += ("  {:<8}   {:<8}      {:.10f}    {:.10f}    {:.10f}     {:.1f}   {:.1f}\n"
-                    .format(position,element,float(coordinate[0]),float(coordinate[1]),float(coordinate[2]),spin,spin))
+                    .format(position+1,element,float(coordinate[0]),float(coordinate[1]),float(coordinate[2]),spin,spin))
+
+        #Unit Vector
+        xl, yl, zl = [], [], []
+        for coords in self._structure.coordinate:
+            xl.append(coords[0])
+            yl.append(coords[1])
+            zl.append(coords[2])
+        x_ = (max(xl) - min(xl)) + 10
+        y_ = (max(yl) - min(yl)) + 10
+        z_ = (max(zl) - min(zl)) + 10
+        self._Atoms_UnitVectors = "{:.9f}   0.000000000   0.000000000\n" \
+                                  "0.000000000   {:.9f}   0.000000000\n" \
+                                  "0.000000000   0.000000000   {:.9f}\n".format(x_, y_, z_)
         return True
 
     def write_openmx_input_file(self,path,filename = "openmx_in.dat"):
@@ -191,6 +213,12 @@ class OpenMXInputWriter(object):
         if not arg in ["Ang","Au","Frac"]:
             raise ValueError("Argument '" + arg + "' not recognized.It should Ang,Au or Frac.")
         self._Atoms_SpeciesAndCoordinates = arg
+        return True
+
+    def atoms_unitvectors_unit(self,arg):
+        if not arg in ["Ang","Au"]:
+            raise ValueError("Argument '" + arg + "' not recognized.")
+        self._Atoms_UnitVectors_Unit = arg
         return True
 
     def scf_xctype(self,arg):
